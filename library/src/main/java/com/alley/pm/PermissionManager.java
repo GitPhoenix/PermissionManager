@@ -42,7 +42,7 @@ public class PermissionManager {
         }
 
         if (checkPermissions(permissions)) {
-            permissionListener.onPermissionGrant(true, permissions, REQUEST_CODE_ASK_PERMISSION);
+            permissionListener.onPermissionGrant(REQUEST_CODE_ASK_PERMISSION, permissions);
         } else {
             List<String> needPermissions = getDeniedPermissions(permissions);
             ActivityCompat.requestPermissions(activity, needPermissions.toArray(new String[needPermissions.size()]), REQUEST_CODE_ASK_PERMISSION);
@@ -113,9 +113,9 @@ public class PermissionManager {
 
         if (requestCode == REQUEST_CODE_ASK_PERMISSION) {
             if (verifyPermissions(grantResults)) {
-                permissionListener.onPermissionGrant(true, permissions, REQUEST_CODE_ASK_PERMISSION);
+                permissionListener.onPermissionGrant(REQUEST_CODE_ASK_PERMISSION, permissions);
             } else {
-                permissionListener.onPermissionDenied(false, permissions, REQUEST_CODE_ASK_PERMISSION);
+                permissionListener.onPermissionDenied(REQUEST_CODE_ASK_PERMISSION, permissions, grantResults);
             }
         }
     }
@@ -124,20 +124,19 @@ public class PermissionManager {
         /**
          * The permissions was granted.
          *
-         * @param isGranted
-         * @param permissions The requested permissions.
          * @param requestCode The request code.
+         * @param permissions The requested permissions.
          */
-        void onPermissionGrant(boolean isGranted, @NonNull String[] permissions, int requestCode);
+        void onPermissionGrant(int requestCode, @NonNull String[] permissions);
 
         /**
          * The permissions was denied.
          *
-         * @param isDenied
-         * @param permissions The requested permissions.
          * @param requestCode The request code.
+         * @param permissions The requested permissions.
+         * @param grantResults The grant results for the corresponding permissions.
          */
-        void onPermissionDenied(boolean isDenied, @NonNull String[] permissions, int requestCode);
+        void onPermissionDenied(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults);
     }
 
     /**

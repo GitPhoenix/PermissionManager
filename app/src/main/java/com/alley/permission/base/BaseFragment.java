@@ -6,14 +6,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.View;
 
 import com.alley.pm.PermissionManager;
 
@@ -21,7 +19,7 @@ public class BaseFragment extends Fragment implements PermissionManager.OnReques
     protected String TAG = this.getClass().getSimpleName();
 
     protected Activity activity;
-    protected PermissionManager permissionManager;
+    private PermissionManager permissionManager;
 
     @Override
     public void onAttach(Context context) {
@@ -29,14 +27,18 @@ public class BaseFragment extends Fragment implements PermissionManager.OnReques
         activity = (Activity) context;
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    /**
+     * 动态权限申请
+     *
+     * @param permissions
+     * @param requestCode
+     */
+    public void requestPermission(@NonNull String[] permissions, @IntRange(from = 0) int requestCode) {
         permissionManager = new PermissionManager(activity);
         permissionManager.setOnRequestPermissionListener(this);
+        permissionManager.requestPermission(permissions, requestCode);
     }
 
-    //如果在Fragment中，进行权限请求操作的话，还需在主Activity中调用Fragment中的onRequestPermissionsResult()方法
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -44,13 +46,13 @@ public class BaseFragment extends Fragment implements PermissionManager.OnReques
     }
 
     @Override
-    public void onPermissionGrant(boolean isGranted, String[] permissions, int requestCode) {
-        Log.i(TAG, "获取权限成功——>" + "isGranted：" + isGranted + " requestCode：" + requestCode);
+    public void onPermissionGrant(int requestCode, @NonNull String[] permissions) {
+        Log.i(TAG, "获取权限成功——>requestCode：" + requestCode);
     }
 
     @Override
-    public void onPermissionDenied(boolean isDenied, String[] permissions, int requestCode) {
-        Log.i(TAG, "获取权限失败——>" + "isGranted：" + isDenied + " requestCode：" + requestCode);
+    public void onPermissionDenied(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        Log.i(TAG, "获取权限失败——>requestCode：" + requestCode);
     }
 
     /**
