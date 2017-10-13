@@ -1,6 +1,6 @@
 ### 轻量级Android动态权限管理库，在Android 6.0及以上系统涉及到敏感权限，需要用户授权才能进行相关操作，如：存储、拍照等权限；否则APP直接崩溃。
 
-### 引用：compile 'com.alley:PermissionManager:1.0.0'
+### 引用：compile 'com.alley:PermissionManager:1.0.2'
 
 ### License
 ```
