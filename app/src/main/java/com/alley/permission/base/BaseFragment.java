@@ -4,15 +4,13 @@ package com.alley.permission.base;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
-import android.provider.Settings;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
+import com.alley.permission.util.ActivityUtils;
 import com.alley.pm.PermissionManager;
 
 public class BaseFragment extends Fragment implements PermissionManager.OnRequestPermissionListener {
@@ -68,7 +66,7 @@ public class BaseFragment extends Fragment implements PermissionManager.OnReques
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
-                        startAppSettings();
+                        ActivityUtils.startSystemSettings(activity);
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -78,14 +76,5 @@ public class BaseFragment extends Fragment implements PermissionManager.OnReques
                         dialogInterface.dismiss();
                     }
                 }).show();
-    }
-
-    /**
-     * 启动当前应用系统设置页面
-     */
-    public void startAppSettings() {
-        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        intent.setData(Uri.parse("package:" + activity.getPackageName()));
-        startActivity(intent);
     }
 }

@@ -6,8 +6,8 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Toast;
 
-import com.alley.permission.base.BaseActivity;
 import com.alley.permission.R;
+import com.alley.permission.base.BaseActivity;
 
 public class MainActivity extends BaseActivity {
 

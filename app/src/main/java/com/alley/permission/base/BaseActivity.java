@@ -2,15 +2,13 @@ package com.alley.permission.base;
 
 
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
-import android.provider.Settings;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.alley.permission.util.ActivityUtils;
 import com.alley.pm.PermissionManager;
 
 public class BaseActivity extends AppCompatActivity implements PermissionManager.OnRequestPermissionListener {
@@ -59,7 +57,7 @@ public class BaseActivity extends AppCompatActivity implements PermissionManager
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
-                        startAppSettings();
+                        ActivityUtils.startSystemSettings(BaseActivity.this);
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -69,14 +67,5 @@ public class BaseActivity extends AppCompatActivity implements PermissionManager
                         dialogInterface.dismiss();
                     }
                 }).show();
-    }
-
-    /**
-     * 启动当前应用系统设置页面
-     */
-    public void startAppSettings() {
-        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        intent.setData(Uri.parse("package:" + getPackageName()));
-        startActivity(intent);
     }
 }
