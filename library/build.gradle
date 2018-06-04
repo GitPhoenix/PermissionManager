@@ -4,9 +4,8 @@ apply plugin: 'com.novoda.bintray-release'
 android {
     compileSdkVersion 27
     buildToolsVersion "27.0.3"
-
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 15
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -26,17 +25,17 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    api fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
 
-    implementation 'com.android.support:appcompat-v7:27.0.2'
+    implementation 'com.android.support:appcompat-v7:27.1.0'
 }
 
 publish {
     userOrg = 'alina'//bintray.com用户名
     groupId = 'com.alley'//jcenter上的路径
     artifactId = 'PermissionManager'//项目名称
-    publishVersion = '1.0.2'//版本号
+    publishVersion = '1.0.3'//版本号
     desc = '动态权限管理'//描述，不重要
     website = 'https://github.com/GitPhoenix/PermissionManager'//网站
 }
